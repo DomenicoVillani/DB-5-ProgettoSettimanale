@@ -1,0 +1,94 @@
+1.
+
+SELECT COUNT(*) AS NumeroVerbaliTrascritti
+FROM [dbo].[Verbale]
+
+2.
+
+SELECT Verb.IDAnagrafica, Cognome, Nome, COUNT(*) AS NumeroVerbaliTrascrittiPerPersona
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+GROUP BY Verb.IDAnagrafica,Cognome, Nome
+
+3.
+
+SELECT TViol.Descrizione, Verb.IDViolazione, COUNT(*) AS NumeroVerbaliTrascrittiTipoViolazione
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[TipoViolazione] AS TViol
+ON Verb.IDViolazione = TViol.IDViolazione
+GROUP BY TViol.Descrizione,Verb.IDViolazione
+
+4.
+
+SELECT Cognome, Nome, SUM(DecurtamentoPunti) AS NumeroPuntiDecurtati
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+GROUP BY Cognome, Nome
+
+5.
+
+SELECT Cognome, Nome,DataViolazione, IndirizzoViolazione,Citta, Importo, DecurtamentoPunti
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+WHERE Citta = 'Palermo'
+
+6.
+ho usato il between perche' chiedeva le violazioni da febbraio a luglio (compresi)
+
+
+SELECT Cognome, Nome,DataViolazione, IndirizzoViolazione,Citta, Importo, DecurtamentoPunti
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+WHERE DataViolazione BETWEEN '2009-02-01' AND '2009-07-31'
+
+7.
+
+SELECT Cognome, Nome, SUM(Importo)
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+GROUP BY Cognome, Nome
+
+8.
+
+SELECT *
+FROM [dbo].[Anagrafica]
+WHERE Citta = 'Palermo'
+
+9.
+
+SELECT Nome,Cognome, DataViolazione, Importo, DecurtamentoPunti
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+WHERE DataViolazione = '2023-07-22'
+
+10.
+
+SELECT Nominativo_Agente, COUNT(Nominativo_Agente) AS NumeroVerbali
+FROM [dbo].[Verbale]
+GROUP BY Nominativo_Agente
+
+11.
+l'eesercizio richiede le violazioni che SUPERINO il decurtamento di 5 punti quindi ho messo >5 
+
+
+SELECT Cognome, Nome,DataViolazione, IndirizzoViolazione,Citta, Importo, DecurtamentoPunti
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+WHERE DecurtamentoPunti > 5
+
+12.
+l'eesercizio richiede le violazioni che SUPERINO l'importo di 400 euro quindi ho messo >400
+
+
+SELECT Cognome, Nome, IndirizzoViolazione,DataViolazione,Citta, Importo, DecurtamentoPunti
+FROM [dbo].[Verbale] AS Verb
+join [dbo].[Anagrafica] AS Anag
+ON Verb.IDAnagrafica = Anag.IDAnagrafica
+WHERE Importo > 400

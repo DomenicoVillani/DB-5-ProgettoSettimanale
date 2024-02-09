@@ -1,0 +1,41 @@
+RICORDARSI DI INSERIRE LA DATA CON GLI APICI SINGOLI ('')
+
+1.
+
+CREATE PROCEDURE GetVerbaliDaAnno
+    @Anno INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT  Anag.Cognome, Anag.Nome, Verb.DataViolazione, Verb.Importo, Verb.DecurtamentoPunti
+  FROM [dbo].[Verbale] as Verb
+  JOIN dbo.Anagrafica as Anag on Anag.IDAnagrafica = Verb.IDAnagrafica 
+  WHERE year(Verb.DataViolazione) like @Anno
+END
+GO
+
+2.
+
+CREATE PROCEDURE GetSommaPuntiDecurtatiDaUnaData
+    @Data date
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT Dataviolazione, SUM(DecurtamentoPunti) AS SommaPuntiDecurtatiDelGiorno
+  FROM [dbo].[Verbale]
+  WHERE DataViolazione like @Data
+  GROUP BY DataViolazione
+END
+GO
+
+3.
+
+CREATE PROCEDURE CancellaVerbale
+    @IDVerbaleCanc INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM [dbo].[Verbale]
+  WHERE IDVerbale = @IDVerbaleCanc
+END
+GO
